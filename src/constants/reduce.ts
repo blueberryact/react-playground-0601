@@ -53,3 +53,5 @@ const sumAgeByActiveGenZUsers = users.reduce((acc, cur) => {
     }
     return acc;
 }, 0);
+
+export {};

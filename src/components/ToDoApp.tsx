@@ -1,5 +1,49 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import ToDoItem from "./ToDoItem";
+import { styled } from "styled-components";
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 40rem;
+    gap: 0.5rem;
+`;
+
+const Input = styled.input`
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 1.5px solid rgba(200, 200, 200, 1);
+    transition: background-color 0.3s ease-in-out;
+    outline: none;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    &:focus {
+        background-color: rgba(50, 255, 100, 0.2);
+    }
+`;
+
+const Select = styled.select`
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+    border: 1.5px solid rgba(200, 200, 200, 1);
+    outline: none;
+`;
+
+const Button = styled.button`
+    border: 1.5px solid transparent;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    outline: none;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
+`;
 
 export enum EStatus {
     WAITING = "WAITING",
@@ -45,18 +89,18 @@ const ToDoApp = () => {
     return (
         <>
             <header>
-                <form onSubmit={onSubmit}>
-                    <input
+                <Form onSubmit={onSubmit}>
+                    <Input
                         value={toDo.title}
                         onChange={(e) => onChange(e, EInputType.title)}
                         placeholder="Title"
                     />
-                    <input
+                    <Input
                         value={toDo.desc}
                         onChange={(e) => onChange(e, EInputType.desc)}
                         placeholder="Description"
                     />
-                    <select
+                    <Select
                         value={toDo.status}
                         onChange={(e) =>
                             onChange(
@@ -75,9 +119,9 @@ const ToDoApp = () => {
                         <option value={EStatus.COMPLETE}>
                             {EStatus.COMPLETE}
                         </option>
-                    </select>
-                    <button type="submit">Submit</button>
-                </form>
+                    </Select>
+                    <Button type="submit">Submit</Button>
+                </Form>
             </header>
             <main>
                 <ul>

@@ -18,6 +18,7 @@ const ToDoItem = ({ title, desc, status = EStatus.WAITING }: IToDoItem) => {
                 border: "1px solid #ccc",
                 borderRadius: "5px",
                 marginBottom: "10px",
+                width: "40rem",
             }}
         >
             <span>{statusIcon}</span>

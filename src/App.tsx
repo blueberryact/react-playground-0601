@@ -1,6 +1,7 @@
 import ToDoApp from "./components/ToDoApp";
 import ToDoList from "./components/ToDoList";
 import ToDoShorts from "./components/ToDoShorts";
+import Props from "./components/Props";
 
 const App = () => {
     return (
@@ -8,6 +9,7 @@ const App = () => {
             <ToDoApp />
             <ToDoList />
             <ToDoShorts />
+            <Props />
         </div>
     );
 };

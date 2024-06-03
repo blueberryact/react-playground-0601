@@ -1,7 +1,8 @@
 import ToDoApp from "./components/ToDoApp";
 import ToDoList from "./components/ToDoList";
 import ToDoShorts from "./components/ToDoShorts";
-import Props from "./components/Props";
+import CalcApp from "./components/Props";
+import Ref from "./components/Ref";
 
 const App = () => {
     return (
@@ -9,7 +10,8 @@ const App = () => {
             <ToDoApp />
             <ToDoList />
             <ToDoShorts />
-            <Props />
+            <CalcApp />
+            <Ref />
         </div>
     );
 };

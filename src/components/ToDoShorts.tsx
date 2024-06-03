@@ -9,10 +9,7 @@ function ToDoShorts() {
     });
     const handleOnChange = (
         e: ChangeEvent<
-            | HTMLInputElement
-            | HTMLSelectElement
-            | HTMLSelectElement
-            | HTMLTextAreaElement
+            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
         >
     ) => {
         console.log("현재 수정 대상", e.target.name);

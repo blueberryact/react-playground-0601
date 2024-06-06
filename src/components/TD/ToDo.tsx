@@ -50,10 +50,6 @@ interface Ifunctionnar {
     createdDate: number;
 }
 
-interface ToDoEditerProps {
-    onCreate: (content: string) => void;
-}
-
 const ToDo = () => {
     const [todo, setTodo] = useState<Ifunctionnar[]>(mokTodo);
 
@@ -72,7 +68,7 @@ const ToDo = () => {
     return (
         <ConTain>
             <ToDoHeader />
-            <ToDoEditer onCreate={onCreate as (content: string) => void} />
+            <ToDoEditer onCreate={onCreate} />
             <ToDoSearch />
             <ToDoUl>
                 <ToDoLi />

@@ -44,13 +44,19 @@ const ToDoEditer: React.FC<ToDoEditerProps> = ({ onCreate }) => {
     const [content, setContent] = useState<string>("");
     const inputRef = useRef<HTMLInputElement>(null);
 
+    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") {
+            onClickEvent();
+        }
+    };
+
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.focus();
             return;
         }
     }, []);
-    const onAddTodo = () => {
+    const onClickEvent = () => {
         onCreate(content);
         setContent("");
     };
@@ -69,8 +75,9 @@ const ToDoEditer: React.FC<ToDoEditerProps> = ({ onCreate }) => {
                     type="text"
                     placeholder="새로운 ToDo..."
                     ref={inputRef}
+                    onKeyDown={onKeyDown}
                 />
-                <AddBtn onClick={onAddTodo}>추가</AddBtn>
+                <AddBtn onClick={onClickEvent}>추가</AddBtn>
             </InputContain>
         </div>
     );

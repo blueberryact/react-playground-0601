@@ -1,12 +1,11 @@
 import { TFC } from "../../types/modal";
 import styled from "styled-components";
 import ToDoLi from "./ToDoLi";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ToDoHeader from "./ToDoHeader";
 import ToDoUl from "./ToDoUl";
 import ToDoEditer from "./ToDoEditer";
 import ToDoSearch from "./ToDoSearch";
-import { IArr } from "../../types/type";
 
 const ConTain = styled.div`
     max-width: 500px;
@@ -51,23 +50,29 @@ interface Ifunctionnar {
     createdDate: number;
 }
 
+interface ToDoEditerProps {
+    onCreate: (content: string) => void;
+}
+
 const ToDo = () => {
-    // 초기 상태를 mokTodo로 설정하고 useState의 타입을 Ifunctionnar 배열로 지정
     const [todo, setTodo] = useState<Ifunctionnar[]>(mokTodo);
 
-    const addTodo = (content: string) => {
+    const idRef = useRef(3);
+
+    const onCreate = (content: string) => {
         const newItem: Ifunctionnar = {
-            id: 0,
+            id: idRef.current,
             isDone: false,
             content,
             createdDate: new Date().getTime(),
         };
-        setTodo([newItem, ...todo]); // 기존 todo 배열 앞에 새 항목 추가
+        setTodo([newItem, ...todo]);
+        idRef.current += 1;
     };
     return (
         <ConTain>
             <ToDoHeader />
-            <ToDoEditer />
+            <ToDoEditer onCreate={onCreate as (content: string) => void} />
             <ToDoSearch />
             <ToDoUl>
                 <ToDoLi />

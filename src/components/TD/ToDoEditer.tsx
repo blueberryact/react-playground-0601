@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect, useRef, useState } from "react";
 
 const InputContain = styled.div`
     display: flex;
@@ -35,13 +36,41 @@ const AddBtn = styled.button`
     }
 `;
 
-const ToDoEditer = () => {
+interface ToDoEditerProps {
+    onCreate: (content: string) => void;
+}
+
+const ToDoEditer: React.FC<ToDoEditerProps> = ({ onCreate }) => {
+    const [content, setContent] = useState<string>("");
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+            return;
+        }
+    }, []);
+    const onAddTodo = () => {
+        onCreate(content);
+        setContent("");
+    };
+
+    const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setContent(e.currentTarget.value);
+    };
+
     return (
         <div>
             <h3>새로운 ToDo 작성하기</h3>
             <InputContain>
-                <TextAirear type="text" placeholder="새로운 ToDo..." />
-                <AddBtn>추가</AddBtn>
+                <TextAirear
+                    value={content}
+                    onChange={onChangeContent}
+                    type="text"
+                    placeholder="새로운 ToDo..."
+                    ref={inputRef}
+                />
+                <AddBtn onClick={onAddTodo}>추가</AddBtn>
             </InputContain>
         </div>
     );

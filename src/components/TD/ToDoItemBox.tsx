@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const ToDoItems = styled.div`
@@ -39,6 +40,7 @@ interface ToDoItemBoxProps {
     createdDate: number;
     isDone: boolean;
     onDelete: (id: number) => void;
+    onClickCheckbox(id: number): void;
 }
 
 const ToDoItemBox: React.FC<ToDoItemBoxProps> = ({
@@ -47,12 +49,17 @@ const ToDoItemBox: React.FC<ToDoItemBoxProps> = ({
     createdDate,
     isDone,
     onDelete,
+    onClickCheckbox,
 }) => {
     const ToDay = new Date(createdDate).toLocaleDateString();
 
     return (
         <ToDoItems>
-            <input type="checkbox" checked={isDone} />
+            <input
+                type="checkbox"
+                defaultChecked={isDone}
+                onClick={() => onClickCheckbox(id)}
+            />
             <Title_col>{content}</Title_col>
             <Date_col>{ToDay}</Date_col>
             <Btn_col onClick={() => onDelete(id)}>삭제</Btn_col>

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import ToDoHeader from "./ToDoHeader";
 import ToDoEditer from "./ToDoEditer";
@@ -19,6 +19,7 @@ const ConTain = styled.div`
     gap: 1.25rem;
 `;
 
+// mock
 const mokTodo = [
     {
         id: 0,
@@ -40,27 +41,30 @@ const mokTodo = [
     },
 ];
 
-interface Ifunctionnar {
+interface IItem {
     id: number;
     isDone: boolean;
     content: string;
     createdDate: number;
 }
 
+type TItemList = IItem[];
+
 const ToDo = () => {
-    const [todo, setTodo] = useState<Ifunctionnar[]>(mokTodo);
-    const [searchResults, setSearchResults] = useState<Ifunctionnar[]>(mokTodo);
+    const [todo, setTodo] = useState<TItemList>(mokTodo);
+    const [searchResults, setSearchResults] = useState<IItem[]>(mokTodo);
 
     const idRef = useRef(3);
 
     const onCreate = (content: string) => {
-        const newItem: Ifunctionnar = {
+        const newItem: IItem = {
             id: idRef.current,
             isDone: false,
             content,
             createdDate: new Date().getTime(),
         };
         setTodo([newItem, ...todo]);
+
         setSearchResults([newItem, ...todo]); // 검색 결과도 업데이트
         idRef.current += 1;
     };
@@ -76,20 +80,66 @@ const ToDo = () => {
     };
 
     const handleDelete = (id: number) => {
+        const targetTodo = todo.find((item) => item.id === id);
+
+        if (!targetTodo?.isDone) return;
+
         const updatedTodos = todo.filter((item) => item.id !== id);
         setTodo(updatedTodos);
         setSearchResults(updatedTodos); // 검색 결과도 업데이트
+
+        // setTodo([...updatedTodos]);
+        /**
+         * map
+         * filter
+         * slice
+         * reduce
+         * splice
+         * sort
+         */
     };
+
+    const onClickCheckbox = (id: number) => {
+        /**
+         * 체크박스를 클릭하면
+         * toDo의 아이템 중 해당하는 아이템의
+         * isDone 삳태가 변화한다.
+         */
+
+        setTodo(
+            todo.map((item) => {
+                if (item.id === id) {
+                    return {
+                        ...item,
+                        isDone: !item.isDone,
+                    };
+                }
+
+                return item;
+            })
+        );
+    };
+
+    useEffect(() => {}, [todo]);
 
     return (
         <ConTain>
             <ToDoHeader />
             <ToDoEditer onCreate={onCreate} />
-            <ToDoSearch
-                myTodo={handleSearch}
-                items={searchResults}
-                onDelete={handleDelete}
-            />
+
+            <ToDoSearch myTodo={handleSearch}>
+                {searchResults.map((item) => (
+                    <ToDoItemBox
+                        key={item.id}
+                        id={item.id}
+                        content={item.content}
+                        createdDate={item.createdDate}
+                        isDone={item.isDone}
+                        onDelete={handleDelete}
+                        onClickCheckbox={onClickCheckbox}
+                    />
+                ))}
+            </ToDoSearch>
         </ConTain>
     );
 };

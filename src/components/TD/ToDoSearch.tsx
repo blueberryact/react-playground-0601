@@ -26,11 +26,34 @@ const DivContain = styled.div`
     width: 100%;
 `;
 
+const DeleteContain = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const ResetBtn = styled.button`
+    border: none;
+    outline: none;
+    background: #333;
+    height: 4vw;
+    border-radius: 0.5rem;
+    color: #dfdfdf;
+    transition: all.5s;
+    box-shadow: 0px 2px 1.5px 0px;
+
+    &:hover {
+        background-color: #fff;
+        color: #333;
+    }
+`;
+
 interface ToDoSearchProps extends Ifunctionnar {
     myTodo: (content: string) => void;
+    allReset: () => void;
 }
 
-const ToDoSearch: FC<ToDoSearchProps> = ({ myTodo, children }) => {
+const ToDoSearch: FC<ToDoSearchProps> = ({ allReset, myTodo, children }) => {
     const [content, setContent] = useState<string>("");
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +63,10 @@ const ToDoSearch: FC<ToDoSearchProps> = ({ myTodo, children }) => {
 
     return (
         <div>
-            <h3>Todo List📂</h3>
+            <DeleteContain>
+                <h3>Todo List📂</h3>
+                <ResetBtn onClick={allReset}>전체삭제</ResetBtn>
+            </DeleteContain>
             <Searchbar
                 placeholder="검색어를 입력하세요"
                 type="text"

@@ -33,20 +33,31 @@ const Btn_col = styled.button`
     border: none;
 `;
 
-const ToDay = new Date().toLocaleDateString();
+interface ToDoItemBoxProps {
+    id: number;
+    content: string;
+    createdDate: number;
+    isDone: boolean;
+    onDelete: (id: number) => void;
+}
 
-const ToDoItemBox = () => {
+const ToDoItemBox: React.FC<ToDoItemBoxProps> = ({
+    id,
+    content,
+    createdDate,
+    isDone,
+    onDelete,
+}) => {
+    const ToDay = new Date(createdDate).toLocaleDateString();
+
     return (
         <ToDoItems>
-            <input type="checkbox" />
-            <Title_col>할일</Title_col>
+            <input type="checkbox" checked={isDone} />
+            <Title_col>{content}</Title_col>
             <Date_col>{ToDay}</Date_col>
-            <Btn_col>
-                <div>삭제</div>
-            </Btn_col>
+            <Btn_col onClick={() => onDelete(id)}>삭제</Btn_col>
         </ToDoItems>
     );
 };
-console.dir(Btn_col);
 
 export default ToDoItemBox;

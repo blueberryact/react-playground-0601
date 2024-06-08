@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 
-const InputContain = styled.div`
+const InputContain = styled.form`
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -17,7 +17,7 @@ const TextAirear = styled.input`
     text-indent: 1rem;
 `;
 
-const AddBtn = styled.button`
+const AddBtn = styled.input`
     border: none;
     border-radius: 0.4rem;
     background-color: #333;
@@ -41,43 +41,31 @@ interface ToDoEditerProps {
 }
 
 const ToDoEditer: React.FC<ToDoEditerProps> = ({ onCreate }) => {
-    const [content, setContent] = useState<string>("");
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            onClickEvent();
-        }
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        inputRef.current?.blur();
+        onClickEvent();
     };
 
-    useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-            return;
-        }
-    }, []);
     const onClickEvent = () => {
-        onCreate(content);
-        setContent("");
-    };
-
-    const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setContent(e.currentTarget.value);
+        if (inputRef.current?.value.length) {
+            onCreate(inputRef.current.value);
+            inputRef.current.value = "";
+        }
     };
 
     return (
         <div>
             <h3>새로운 ToDo 작성하기</h3>
-            <InputContain>
+            <InputContain onSubmit={onSubmit}>
                 <TextAirear
-                    value={content}
-                    onChange={onChangeContent}
                     type="text"
                     placeholder="새로운 ToDo..."
                     ref={inputRef}
-                    onKeyDown={onKeyDown}
                 />
-                <AddBtn onClick={onClickEvent}>추가</AddBtn>
+                <AddBtn type="submit" />
             </InputContain>
         </div>
     );

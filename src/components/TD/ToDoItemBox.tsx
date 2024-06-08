@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { IItem } from "./ToDo";
 
 const ToDoItems = styled.div`
     display: flex;
@@ -14,6 +15,13 @@ const ToDoItems = styled.div`
 
 const Title_col = styled.div`
     flex: 1;
+`;
+
+const EditInput = styled.input`
+    outline: none;
+    border: 1px solid #000;
+    border-radius: 2px;
+    padding: 0.5rem;
 `;
 
 const Checkbox_col = styled.div`
@@ -35,34 +43,56 @@ const Btn_col = styled.button`
 `;
 
 interface ToDoItemBoxProps {
-    id: number;
-    content: string;
-    createdDate: number;
-    isDone: boolean;
+    // id: number;
+    // content: string;
+    // createdDate: number;
+    // isDone: boolean;
+    item: IItem;
     onDelete: (id: number) => void;
     onClickCheckbox(id: number): void;
+    onModifyContent(id: number, modified: string): void;
 }
 
 const ToDoItemBox: React.FC<ToDoItemBoxProps> = ({
-    id,
-    content,
-    createdDate,
-    isDone,
+    item,
     onDelete,
     onClickCheckbox,
+    onModifyContent,
 }) => {
-    const ToDay = new Date(createdDate).toLocaleDateString();
+    const ToDay = new Date(item.createdDate).toLocaleDateString();
+    const [isEdit, setIsEdit] = useState<boolean>(false);
+    const editInputRef = useRef<HTMLInputElement>(null);
+
+    const enterEditMode = () => {
+        setIsEdit(true);
+    };
+
+    const exitEditMode = () => {
+        if (editInputRef.current?.value) {
+            onModifyContent(item.id, editInputRef.current.value);
+            // editInputRef.current.value = ''
+        }
+
+        setIsEdit(false);
+    };
 
     return (
         <ToDoItems>
             <input
                 type="checkbox"
-                defaultChecked={isDone}
-                onClick={() => onClickCheckbox(id)}
+                defaultChecked={item.isDone}
+                onClick={() => onClickCheckbox(item.id)}
             />
-            <Title_col>{content}</Title_col>
+            {isEdit ? (
+                <EditInput defaultValue={item.content} ref={editInputRef} />
+            ) : (
+                <Title_col>{item.content}</Title_col>
+            )}
             <Date_col>{ToDay}</Date_col>
-            <Btn_col onClick={() => onDelete(id)}>삭제</Btn_col>
+            <Btn_col onClick={() => onDelete(item.id)}>삭제</Btn_col>
+            <Btn_col onClick={isEdit ? exitEditMode : enterEditMode}>
+                {isEdit ? "적용" : "수정"}
+            </Btn_col>
         </ToDoItems>
     );
 };

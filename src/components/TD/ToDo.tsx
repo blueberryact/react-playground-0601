@@ -81,7 +81,6 @@ const ToDo = () => {
 
     const handleDelete = (id: number) => {
         const targetTodo = todo.find((item) => item.id === id);
-
         if (!targetTodo?.isDone) return;
 
         const updatedTodos = todo.filter((item) => item.id !== id);

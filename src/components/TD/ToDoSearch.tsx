@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import styled from "styled-components";
 import ToDoItemBox from "./ToDoItemBox";
+import { Ifunctionnar } from "../../types/type";
 
 const Searchbar = styled.input`
     margin-bottom: 20px;
@@ -25,21 +26,14 @@ const DivContain = styled.div`
     width: 100%;
 `;
 
-interface ToDoSearchProps {
+interface ToDoSearchProps extends Ifunctionnar {
     myTodo: (content: string) => void;
-    items: {
-        id: number;
-        content: string;
-        createdDate: number;
-        isDone: boolean;
-    }[];
-    onDelete: (id: number) => void;
 }
 
-const ToDoSearch: React.FC<ToDoSearchProps> = ({ myTodo, items, onDelete }) => {
+const ToDoSearch: FC<ToDoSearchProps> = ({ myTodo, children }) => {
     const [content, setContent] = useState<string>("");
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setContent(e.target.value);
         myTodo(e.target.value);
     };
@@ -53,18 +47,7 @@ const ToDoSearch: React.FC<ToDoSearchProps> = ({ myTodo, items, onDelete }) => {
                 value={content}
                 onChange={handleInputChange}
             />
-            <DivContain>
-                {items.map((item) => (
-                    <ToDoItemBox
-                        key={item.id}
-                        id={item.id}
-                        content={item.content}
-                        createdDate={item.createdDate}
-                        isDone={item.isDone}
-                        onDelete={onDelete}
-                    />
-                ))}
-            </DivContain>
+            <DivContain>{children}</DivContain>
         </div>
     );
 };

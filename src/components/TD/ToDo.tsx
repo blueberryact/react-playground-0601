@@ -20,28 +20,8 @@ const ConTain = styled.div`
 `;
 
 // mock
-const mokTodo = [
-    {
-        id: 0,
-        isDone: false,
-        content: "pravit",
-        createdDate: new Date().getTime(),
-    },
-    {
-        id: 1,
-        isDone: false,
-        content: "im going homes",
-        createdDate: new Date().getTime(),
-    },
-    {
-        id: 2,
-        isDone: false,
-        content: "saksldj;l",
-        createdDate: new Date().getTime(),
-    },
-];
 
-interface IItem {
+export interface IItem {
     id: number;
     isDone: boolean;
     content: string;
@@ -51,8 +31,8 @@ interface IItem {
 type TItemList = IItem[];
 
 const ToDo = () => {
-    const [todo, setTodo] = useState<TItemList>(mokTodo);
-    const [searchResults, setSearchResults] = useState<IItem[]>(mokTodo);
+    const [todo, setTodo] = useState<TItemList>([]);
+    const [searchResults, setSearchResults] = useState<TItemList>([]);
 
     const idRef = useRef(3);
 
@@ -76,6 +56,13 @@ const ToDo = () => {
             setSearchResults(
                 todo.filter((item) => item.content.includes(query))
             );
+        }
+    };
+
+    const allDelete = () => {
+        if (window.confirm("정말로 삭제하겠습니까?")) {
+            setTodo([]);
+            setSearchResults([]);
         }
     };
 
@@ -119,23 +106,36 @@ const ToDo = () => {
         );
     };
 
-    useEffect(() => {}, [todo]);
+    const modifyToDo = (id: number, modified: string) => {
+        console.log(modified);
+
+        const modifiedTodos = todo.map((item) => {
+            if (item.id === id) {
+                return {
+                    ...item,
+                    content: modified,
+                };
+            }
+
+            return item;
+        });
+
+        setTodo([...modifiedTodos]);
+    };
 
     return (
         <ConTain>
             <ToDoHeader />
             <ToDoEditer onCreate={onCreate} />
 
-            <ToDoSearch myTodo={handleSearch}>
-                {searchResults.map((item) => (
+            <ToDoSearch myTodo={handleSearch} allReset={allDelete}>
+                {todo.map((item) => (
                     <ToDoItemBox
                         key={item.id}
-                        id={item.id}
-                        content={item.content}
-                        createdDate={item.createdDate}
-                        isDone={item.isDone}
+                        item={item}
                         onDelete={handleDelete}
                         onClickCheckbox={onClickCheckbox}
+                        onModifyContent={modifyToDo}
                     />
                 ))}
             </ToDoSearch>

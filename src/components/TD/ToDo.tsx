@@ -1,11 +1,9 @@
-import { TFC } from "../../types/modal";
+import { useState, useRef } from "react";
 import styled from "styled-components";
-import ToDoLi from "./ToDoLi";
-import { useRef, useState } from "react";
 import ToDoHeader from "./ToDoHeader";
-import ToDoUl from "./ToDoUl";
 import ToDoEditer from "./ToDoEditer";
 import ToDoSearch from "./ToDoSearch";
+import ToDoItemBox from "./ToDoItemBox";
 
 const ConTain = styled.div`
     max-width: 500px;
@@ -42,7 +40,6 @@ const mokTodo = [
     },
 ];
 
-// Ifunctionnar 타입 정의
 interface Ifunctionnar {
     id: number;
     isDone: boolean;
@@ -52,6 +49,7 @@ interface Ifunctionnar {
 
 const ToDo = () => {
     const [todo, setTodo] = useState<Ifunctionnar[]>(mokTodo);
+    const [searchResults, setSearchResults] = useState<Ifunctionnar[]>(mokTodo);
 
     const idRef = useRef(3);
 
@@ -63,16 +61,35 @@ const ToDo = () => {
             createdDate: new Date().getTime(),
         };
         setTodo([newItem, ...todo]);
+        setSearchResults([newItem, ...todo]); // 검색 결과도 업데이트
         idRef.current += 1;
     };
+
+    const handleSearch = (query: string) => {
+        if (query === "") {
+            setSearchResults(todo);
+        } else {
+            setSearchResults(
+                todo.filter((item) => item.content.includes(query))
+            );
+        }
+    };
+
+    const handleDelete = (id: number) => {
+        const updatedTodos = todo.filter((item) => item.id !== id);
+        setTodo(updatedTodos);
+        setSearchResults(updatedTodos); // 검색 결과도 업데이트
+    };
+
     return (
         <ConTain>
             <ToDoHeader />
             <ToDoEditer onCreate={onCreate} />
-            <ToDoSearch />
-            <ToDoUl>
-                <ToDoLi />
-            </ToDoUl>
+            <ToDoSearch
+                myTodo={handleSearch}
+                items={searchResults}
+                onDelete={handleDelete}
+            />
         </ConTain>
     );
 };

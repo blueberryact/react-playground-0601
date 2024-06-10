@@ -1,5 +1,24 @@
 import { useState } from "react";
 import styled from "styled-components";
+import createGlobalStyle from "styled-components";
+
+const globalStyles = createGlobalStyle`
+    body{
+        background-color: ${(props) => props.theme.background};
+        color:${(props) => props.theme.color};
+        transition: all 0.5s linear;
+    }
+`;
+
+const lightTheme = {
+    background: "#fff",
+    color: "#000",
+};
+
+const darkTheme = {
+    background: "#000",
+    color: "#fff",
+};
 
 const MyDate = new Date().toDateString();
 

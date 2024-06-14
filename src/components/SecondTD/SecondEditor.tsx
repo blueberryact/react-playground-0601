@@ -68,4 +68,4 @@ const SecondEditor: FC<secondEditProps> = ({ onCreate }) => {
     );
 };
 
-export default SecondEditor;
+export default SecondToDo;

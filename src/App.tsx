@@ -5,10 +5,12 @@ import CalcApp from "./components/CalcApp";
 import Ref from "./components/Ref";
 import Modal from "./components/Modal";
 import { useState } from "react";
+import ToDo from "./components/TD/ToDo";
 import Counter from "./components/Counter";
-import View from "./components/View";
-import Control from "./components/Control";
 import Calculator from "./components/Calculator/Calculator";
+import styled from "styled-components";
+
+import SecondToDo from "./components/SecondTD/SecondEditor";
 
 const App = () => {
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
@@ -19,7 +21,9 @@ const App = () => {
 
     return (
         <div className="App">
-            <Calculator />
+            {/* <ToDo /> */}
+            <SecondToDo />
+            {/* <Calculator /> */}
             {/* {isShowModal && (
                 <Modal toggleModal={toggleModal} width="40rem" height="20rem">
                     <ToDoApp />

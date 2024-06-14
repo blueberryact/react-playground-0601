@@ -85,6 +85,8 @@ const ToDo = () => {
          */
     };
 
+    const [backgroundRgb, setBackgroundRgb] = useState("");
+
     const onClickCheckbox = (id: number) => {
         /**
          * 체크박스를 클릭하면

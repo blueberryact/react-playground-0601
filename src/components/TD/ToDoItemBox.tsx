@@ -70,7 +70,7 @@ const ToDoItemBox: React.FC<ToDoItemBoxProps> = ({
     const exitEditMode = () => {
         if (editInputRef.current?.value) {
             onModifyContent(item.id, editInputRef.current.value);
-            // editInputRef.current.value = ''
+            // editInputRef.current.value = "";
         }
 
         setIsEdit(false);

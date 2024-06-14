@@ -1,17 +1,9 @@
 import { useState } from "react";
-import { FC } from "react";
 import SecondList from "./SecondList";
 import CreateToDo from "./CreateToDo";
 
-interface secondToDoProps {
-    id: number;
-    content: string;
-    isDone: boolean;
-    createDate: string;
-}
-
 const SecondToDo = () => {
-    const [todo, setTodo] = useState<secondToDoProps[]>([
+    const [todo, setTodo] = useState([
         {
             id: 0,
             content: "",

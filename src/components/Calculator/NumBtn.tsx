@@ -22,7 +22,7 @@ const Btn = styled.button`
 
 interface INumBtnProps {
     value?: number | string;
-    onClick(e: MouseEvent<HTMLButtonElement>): void;
+    onClick(e: MouseEvent<HTMLButtonElement>): void; // 비어있다;
 }
 
 const NumBtn = ({ value, onClick }: INumBtnProps) => {

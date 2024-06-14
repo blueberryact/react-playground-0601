@@ -11,13 +11,6 @@ interface SecondToDoProps {
     createDate: string;
 }
 
-interface toDo {
-    id: number;
-    isDone: boolean;
-    content: string;
-    createDate: string;
-}
-
 const OtherBtn = styled.li`
     list-style: none;
 `;
